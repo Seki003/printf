@@ -25,13 +25,13 @@ int _printf(const char *format, ...)
 			i++;
 			if (format[i] == '%')
 			{
-				putchar('%');
+				_putchar('%');
 				count++;
 				i++;
 			}
 			else if (format[i] == 'c')
 			{
-				putchar(va_arg(args, int));
+				_putchar(va_arg(args, int));
 				count++;
 				i++;
 			}
@@ -42,7 +42,7 @@ int _printf(const char *format, ...)
 				k = 0;
 				while (word[k] != '\0')
 				{
-					putchar(word[k]);
+					_putchar(word[k]);
 					count++;
 					k++;
 				}
@@ -50,7 +50,7 @@ int _printf(const char *format, ...)
 		}
 		else
 		{
-			putchar(format[i]);
+			_putchar(format[i]);
 			count++;
 			i++;
 		}
