@@ -8,11 +8,23 @@
  * Returns: number of char printed
 */
 
+
+int print_string(char *word) 
+{
+  	int k = 0;
+  	while (word[k]) 
+	{
+ 	putchar(word[k]);
+  	k++;
+	}
+	return (k);
+}
+
+
 int _printf(const char *format, ...)
 {
 	va_list args;
 	int i = 0;
-	int k = 0;
 	char *word = NULL;
 	int count = 0;
 
@@ -39,13 +51,7 @@ int _printf(const char *format, ...)
 			{
 				i++;
 				word = va_arg(args, char *);
-				k = 0;
-				while (word[k] != '\0')
-				{
-					putchar(word[k]);
-					count++;
-					k++;
-				}
+				print_string(word);
 			}
 		}
 		else
@@ -55,6 +61,7 @@ int _printf(const char *format, ...)
 			i++;
 		}
 	}
+
 	va_end(args);
 	return (count);
 }
