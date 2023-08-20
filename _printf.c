@@ -1,60 +1,31 @@
 #include "main.h"
-#include <stddef.h>
-
-/**
- * _printf - it is a cloning of printf func
- * @format: the text that should be printed
- * @...: more arguments
- * Returns: number of char printed
-*/
 
 int _printf(const char *format, ...)
 {
-	va_list args;
-	int i = 0;
-	int k = 0;
-	char *word = NULL;
-	int count = 0;
+    va_list args;
+    va_start(args, format);
 
-	va_start(args, format);
+    int count = 0;
 
-	while (format[i] != '\0')
-	{
-		if (format[i] == '%')
-		{
-			i++;
-			if (format[i] == '%')
-			{
-				putchar('%');
-				count++;
-				i++;
-			}
-			else if (format[i] == 'c')
-			{
-				putchar(va_arg(args, int));
-				count++;
-				i++;
-			}
-			else if (format[i] == 's')
-			{
-				i++;
-				word = va_arg(args, char *);
-				k = 0;
-				while (word[k] != '\0')
-				{
-					putchar(word[k]);
-					count++;
-					k++;
-				}
-			}
-		}
-		else
-		{
-			putchar(format[i]);
-			count++;
-			i++;
-		}
-	}
-	va_end(args);
-	return (count);
+    while (*format)
+    {
+        if (*format == '%' && format++)
+        {
+            if (*format == 'c')
+                putchar(va_arg(args, int)), count++;
+            else if (*format == 's')
+                for (char *str = va_arg(args, char *); putchar(*str++); count++);
+            else if (*format == '%')
+                putchar('%'), count++;
+            else
+                putchar('%'), putchar(*format), count += 2;
+        }
+        else
+            putchar(*format), count++;
+
+        format++;
+    }
+
+    va_end(args);
+    return count;
 }
