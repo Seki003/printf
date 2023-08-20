@@ -2,9 +2,10 @@
 #include <stddef.h>
 
 /**
- * print_string - printing a string using print each char
- * @word: the text that should be printed
- * Returns: number of char printed
+ * print_string - func that print a string after specifier %
+ * @word: pointer to char string
+ *
+ * Return: formatted strings
 */
 
 int print_string(char *word)
@@ -20,10 +21,10 @@ int print_string(char *word)
 }
 
 /**
- * _printf - it is a cloning of printf func
- * @format: the text that should be printed
- * @...: more arguments
- * Returns: number of char printed
+ * _printf - print the input and deal with '%'
+ * @format: include the string putted and entered
+ * @...: list of arguments variable
+ * Return: the total of character printed
 */
 
 int _printf(const char *format, ...)
