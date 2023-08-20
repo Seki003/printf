@@ -11,49 +11,28 @@
 int _printf(const char *format, ...)
 {
 	va_list args;
-	int i = 0;
-	int k = 0;
+	int i = 0, k = 0, count = 0;
 	char *word = NULL;
-	int count = 0;
 
 	va_start(args, format);
-
-	while (format[i] != '\0')
+	while (format[i])
 	{
-		if (format[i] == '%')
+		if (format[i++] == '%')
 		{
-			i++;
 			if (format[i] == '%')
-			{
-				putchar('%');
-				count++;
-				i++;
-			}
+				putchar('%'), i++;
 			else if (format[i] == 'c')
-			{
-				putchar(va_arg(args, int));
-				count++;
-				i++;
-			}
+				putchar(va_arg(args, int)), i++;
 			else if (format[i] == 's')
 			{
+				word = va_arg(args, char*);
+				while (putchar(word[k++]));
 				i++;
-				word = va_arg(args, char *);
-				k = 0;
-				while (word[k] != '\0')
-				{
-					putchar(word[k]);
-					count++;
-					k++;
-				}
 			}
 		}
 		else
-		{
-			putchar(format[i]);
-			count++;
-			i++;
-		}
+			putchar(format[i - 1]);
+		count++;
 	}
 	va_end(args);
 	return (count);
