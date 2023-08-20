@@ -2,24 +2,29 @@
 #include <stddef.h>
 
 /**
+ * print_string - printing a string using print each char
+ * @word: the text that should be printed
+ * Returns: number of char printed
+*/
+
+int print_string(char *word)
+{
+	int k = 0;
+
+	while (word[k])
+	{
+		putchar(word[k]);
+		k++;
+	}
+	return (k);
+}
+
+/**
  * _printf - it is a cloning of printf func
  * @format: the text that should be printed
  * @...: more arguments
  * Returns: number of char printed
 */
-
-
-int print_string(char *word) 
-{
-  	int k = 0;
-  	while (word[k]) 
-	{
- 	putchar(word[k]);
-  	k++;
-	}
-	return (k);
-}
-
 
 int _printf(const char *format, ...)
 {
@@ -52,6 +57,7 @@ int _printf(const char *format, ...)
 				i++;
 				word = va_arg(args, char *);
 				print_string(word);
+				count++;
 			}
 		}
 		else
