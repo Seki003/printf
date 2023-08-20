@@ -14,6 +14,7 @@ int _printf(const char *format, ...)
 	int i = 0;
 	int k = 0;
 	char *word = NULL;
+	int count = 0;
 
 	va_start(args, format);
 
@@ -25,11 +26,13 @@ int _printf(const char *format, ...)
 			if (format[i] == '%')
 			{
 				putchar('%');
+				count++;
 				i++;
 			}
 			else if (format[i] == 'c')
 			{
 				putchar(va_arg(args, int));
+				count++;
 				i++;
 			}
 			else if (format[i] == 's')
@@ -40,6 +43,7 @@ int _printf(const char *format, ...)
 				while (word[k] != '\0')
 				{
 					putchar(word[k]);
+					count++;
 					k++;
 				}
 			}
@@ -47,8 +51,10 @@ int _printf(const char *format, ...)
 		else
 		{
 			putchar(format[i]);
+			count++;
 			i++;
 		}
 	}
 	va_end(args);
+	return (count);
 }
