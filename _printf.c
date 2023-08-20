@@ -2,39 +2,22 @@
 #include <stddef.h>
 
 /**
- * print_string - func that print a string after specifier %
- * @word: pointer to char string
- *
- * Return: formatted strings
-*/
-
-int print_string(char *word)
-{
-	int k = 0;
-
-	while (word[k])
-	{
-		_putchar(word[k]);
-		k++;
-	}
-	return (k);
-}
-
-/**
- * _printf - print the input and deal with '%'
- * @format: include the string putted and entered
- * @...: list of arguments variable
- * Return: the total of character printed
+ * _printf - take text as input and print it, clone printf
+ * @format: containts the strings and char
+ * @...: arguments entered for the func
+ * Return: the number of char printed
 */
 
 int _printf(const char *format, ...)
 {
 	va_list args;
 	int i = 0;
+	int k = 0;
 	char *word = NULL;
 	int count = 0;
 
 	va_start(args, format);
+
 	while (format[i] != '\0')
 	{
 		if (format[i] == '%')
@@ -55,8 +38,14 @@ int _printf(const char *format, ...)
 			else if (format[i] == 's')
 			{
 				i++;
-				print_string(word = va_arg(args, char *));
-				count++;
+				word = va_arg(args, char *);
+				k = 0;
+				while (word[k] != '\0')
+				{
+					_putchar(word[k]);
+					count++;
+					k++;
+				}
 			}
 		}
 		else
