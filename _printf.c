@@ -39,13 +39,7 @@ int _printf(const char *format, ...)
 			{
 				i++;
 				word = va_arg(args, char *);
-				k = 0;
-				while (word[k] != '\0')
-				{
-					_putchar(word[k]);
-					count++;
-					k++;
-				}
+				count =+ print_str(word);
 			}
 		}
 		else
