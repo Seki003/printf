@@ -14,7 +14,7 @@ int print_string(char *word)
 
 	while (word[k])
 	{
-		putchar(word[k]);
+		_putchar(word[k]);
 		k++;
 	}
 	return (k);
@@ -38,34 +38,30 @@ int _printf(const char *format, ...)
 	while (format[i] != '\0')
 	{
 		if (format[i] == '%')
-        {
-            i++;
-            switch (format[i])
-            {
-                case '%':
-                    putchar('%');
-                    count++;
-                    break;
-                case 'c':
-                    putchar(va_arg(args, int));
-                    count++;
-                    break;
-                case 's':
-                    i++;
-                    word = va_arg(args, char *);
-                    print_string(word);
-                    count++;
-                    break;
-                default:
-                    putchar('%');
-                    putchar(format[i]);
-                    count += 2;
-                    break;
+		{
+			i++;
+			if (format[i] == '%')
+			{
+				_putchar('%');
+				count++;
+				i++;
+			}
+			else if (format[i] == 'c')
+			{
+				_putchar(va_arg(args, int));
+				count++;
+				i++;
+			}
+			else if (format[i] == 's')
+			{
+				i++;
+				print_string(word = va_arg(args, char *));
+				count++;
 			}
 		}
 		else
 		{
-			putchar(format[i]);
+			_putchar(format[i]);
 			count++;
 			i++;
 		}
