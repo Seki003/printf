@@ -38,7 +38,14 @@ int _printf(const char *format, ...)
 			else if (format[i] == 's')
 			{
 				i++;
-				count += print_str(va_arg(args, char *));
+				word = va_arg(args, char *);
+				k = 0;
+				while (word[k] != '\0')
+				{
+					_putchar(word[k]);
+					count++;
+					k++;
+				}
 			}
 		}
 		else
