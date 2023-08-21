@@ -13,7 +13,7 @@ int print_str(char *word)
 
 	while (word[k])
 	{
-		putchar(word[k]);
+		_putchar(word[k]);
 		k++;
 	}
 	return (k);
