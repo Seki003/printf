@@ -39,7 +39,7 @@ int _printf(const char *format, ...)
 			{
 				i++;
 				word = va_arg(args, char *);
-				count =+ print_str(word);
+				print_str(word);
 			}
 		}
 		else
