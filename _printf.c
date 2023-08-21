@@ -11,7 +11,7 @@ int print_char(int a, int c, int b)
 {
 	int display;
 
-	display = write(a, &#38;c, b);
+	display = write(a, &c, b);
 	return (display);
 }
 
@@ -41,11 +41,11 @@ int print_string(char *str_char)
  */
 int format_c(const char *format)
 {
-	if (!format || (*format == '%' &#38;&#38;!(format + 1)))
+	if (!format || (*format == '%' && !(format + 1)))
 	{
 		return (-1);
 	}
-	if (*format == '%' &#38;&#38; *(format + 1) == ' &#38;&#38;!(format + 2))
+	if (*format == '%' && *(format + 1) == ' ' && !(format + 2))
 	{
 		return (-1);
 	}
@@ -54,7 +54,7 @@ int format_c(const char *format)
 		format++;
 		while (*format)
 		{
-			if (*format == ')
+			if (*format == ' ')
 			{
 				format++;
 				continue;
@@ -67,45 +67,12 @@ int format_c(const char *format)
 }
 
 /**
- * print_int - function that prints an integer
- * @num: integer to print
- * Return: the integer printed
- */
-int print_int(int num)
-{
-	int i = 0, neg = 0;
-	char str[100];
-
-	if (num < 0)
-	{
-		neg = 1;
-		num = -num;
-	}
-	i = 0;
-	while (num > 0)
-	{
-		str[i++] = num % 10 + '0';
-		num /= 10;
-	}
-	if (neg)
-	{
-		str[i++] = '-';
-	}
-	str[i] = '\0';
-	for (int j = i - 1; j >= 0; j--)
-	{
-		_putchar(str[j]);
-	}
-	return (i);
-}
-
-/**
  * _printf - takes strings and arguments of each '%'
  * @format: the first string containing '%'
  * @...: list of arguments variable
  * Return: the total of character printed
 */
-int _printf(const char *format,...)
+int _printf(const char *format, ...)
 {
 	char c, *s;
 	int i = 0;
@@ -127,18 +94,12 @@ int _printf(const char *format,...)
 					c = va_arg(ap, int);
 					i += _putchar(c);
 					break;
-				case '':
+				case 's':
 					s = va_arg(ap, char*);
-					i += s? print_string(s) : print_string("(null)");
+					i += s ? print_string(s) : print_string("(null)");
 					break;
 				case '%':
 					i += _putchar('%');
-					break;
-				case 'd':
-					i += print_int(va_arg(ap, int));
-					break;
-				case 'u':
-					i += print_uint(va_arg(ap, unsigned int));
 					break;
 				default:
 					i += _putchar('%') + _putchar(*format);
