@@ -1,6 +1,21 @@
 #include "main.h"
 
 /**
+ * print_char - fucnction that prints a char character
+ * @a: file descriptor integer to output
+ * @c: character parameter/
+ * @b: character size
+ * Return: the character
+ */
+int print_char(int a, int c, int b)
+{
+	int display;
+
+	display = write(a, &c, b);
+	return (display);
+}
+
+/**
  * print_string - Function which prints string
  * @str_char: pointer to char string
  *
@@ -64,8 +79,8 @@ int _printf(const char *format, ...)
 	va_list ap;
 
 	va_start(ap, format);
-	if (*format == '\0')
-		return(-1);
+	if (format_c(format) == -1)
+		return (-1);
 	if (format)
 	{
 		while (*format)
