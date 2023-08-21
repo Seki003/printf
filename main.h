@@ -10,5 +10,6 @@
 int _putchar(char c);
 int _printf(const char *format, ...);
 int print_str(char *word);
+int check(const char *format);
 
 #endif

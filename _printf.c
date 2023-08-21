@@ -18,7 +18,10 @@ int _printf(const char *format, ...)
 
 	va_start(args, format);
 
-	while (format[i] != '\0')
+	if (check(format) == -1)
+		return (-1);
+		
+	while (format[i])
 	{
 		if (format[i] == '%')
 		{
@@ -38,14 +41,7 @@ int _printf(const char *format, ...)
 			else if (format[i] == 's')
 			{
 				i++;
-				word = va_arg(args, char *);
-				k = 0;
-				while (word[k] != '\0')
-				{
-					_putchar(word[k]);
-					count++;
-					k++;
-				}
+				count += print_str(va_arg(args, char *));
 			}
 		}
 		else
