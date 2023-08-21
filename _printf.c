@@ -1,182 +1,69 @@
 #include "main.h"
 
-/************************* PRINT CHAR *************************/
-
 /**
- * print_char - Prints a char
- * @types: List a of arguments
- * @buffer: Buffer array to handle print
- * @flags:  Calculates active flags
- * @width: Width
- * @precision: Precision specification
- * @size: Size specifier
- * Return: Number of chars printed
+ * print_char - fucnction that prints a char character
+ * @a: file descriptor integer to output
+ * @c: character parameter/
+ * @b: character size
+ * Return: the character
  */
-int print_char(va_list types, char buffer[],
-	int flags, int width, int precision, int size)
+int print_char(int a, int c, int b)
 {
-	char c = va_arg(types, int);
+	int display;
 
-	return (handle_write_char(c, buffer, flags, width, precision, size));
+	display = write(a, &c, b);
+	return (display);
 }
 
-/************************* PRINT A STRING *************************/
 /**
- * print_string - Prints a string
- * @types: List a of arguments
- * @buffer: Buffer array to handle print
- * @flags:  Calculates active flags
- * @width: get width.
- * @precision: Precision specification
- * @size: Size specifier
- * Return: Number of chars printed
- */
-int print_string(va_list types, char buffer[],
-	int flags, int width, int precision, int size)
+ * print_string - Function which prints string
+ * @str_char: pointer to char string
+ *
+ * Return: formatted strings
+*/
+int print_string(char *str_char)
 {
-	int length = 0, i;
-	char *str = va_arg(types, char *);
+	int i = 0;
 
-	UNUSED(buffer);
-	UNUSED(flags);
-	UNUSED(width);
-	UNUSED(precision);
-	UNUSED(size);
-	if (str == NULL)
+	while (*str_char)
 	{
-		str = "(null)";
-		if (precision >= 6)
-			str = "      ";
+		_putchar(*str_char);
+		str_char++;
+		i += 1;
 	}
+	return (i);
+}
 
-	while (str[length] != '\0')
-		length++;
-
-	if (precision >= 0 && precision < length)
-		length = precision;
-
-	if (width > length)
+/**
+ * format_c - A function that checks the format
+ * @format: A pointer to a string
+ * Return: -1
+ */
+int format_c(const char *format)
+{
+	if (!format || (*format == '%' && !(format + 1)))
 	{
-		if (flags & F_MINUS)
+		return (-1);
+	}
+	if (*format == '%' && *(format + 1) == ' ' && !(format + 2))
+	{
+		return (-1);
+	}
+	if (*format == '%')
+	{
+		format++;
+		while (*format)
 		{
-			write(1, &str[0], length);
-			for (i = width - length; i > 0; i--)
-				write(1, " ", 1);
-			return (width);
+			if (*format == ' ')
+			{
+				format++;
+				continue;
+			}
+			return (0);
 		}
-		else
-		{
-			for (i = width - length; i > 0; i--)
-				write(1, " ", 1);
-			write(1, &str[0], length);
-			return (width);
-		}
+		return (-1);
 	}
-
-	return (write(1, str, length));
-}
-
-/************************* PRINT PERCENT SIGN *************************/
-/**
- * print_percent - Prints a percent sign
- * @types: Lista of arguments
- * @buffer: Buffer array to handle print
- * @flags:  Calculates active flags
- * @width: get width.
- * @precision: Precision specification
- * @size: Size specifier
- * Return: Number of chars printed
- */
-int print_percent(va_list types, char buffer[],
-	int flags, int width, int precision, int size)
-{
-	UNUSED(types);
-	UNUSED(buffer);
-	UNUSED(flags);
-	UNUSED(width);
-	UNUSED(precision);
-	UNUSED(size);
-	return (write(1, "%%", 1));
-}
-
-
-/************************* PRINT INT *************************/
-/**
- * print_int - Print int
- * @types: Lista of arguments
- * @buffer: Buffer array to handle print
- * @flags:  Calculates active flags
- * @width: get width.
- * @precision: Precision specification
- * @size: Size specifier
- * Return: Number of chars printed
- */
-int print_int(va_list types, char buffer[],
-	int flags, int width, int precision, int size)
-{
-	int i = BUFF_SIZE - 2;
-	int is_negative = 0;
-	long int n = va_arg(types, long int);
-	unsigned long int num;
-
-	n = convert_size_number(n, size);
-
-	if (n == 0)
-		buffer[i--] = '0';
-
-	buffer[BUFF_SIZE - 1] = '\0';
-	num = (unsigned long int)n;
-
-	if (n < 0)
-	{
-		num = (unsigned long int)((-1) * n);
-		is_negative = 1;
-	}
-
-	while (num > 0)
-	{
-		buffer[i--] = (num % 10) + '0';
-		num /= 10;
-	}
-
-	i++;
-
-	return (write_number(is_negative, i, buffer, flags, width, precision, size));
-}
-
-/************************* PRINT UNSIGNED NUMBER *************************/
-/**
- * print_unsigned - Prints an unsigned number
- * @types: List a of arguments
- * @buffer: Buffer array to handle print
- * @flags:  Calculates active flags
- * @width: get width
- * @precision: Precision specification
- * @size: Size specifier
- * Return: Number of chars printed.
- */
-int print_unsigned(va_list types, char buffer[],
-	int flags, int width, int precision, int size)
-{
-	int i = BUFF_SIZE - 2;
-	unsigned long int num = va_arg(types, unsigned long int);
-
-	num = convert_size_unsgnd(num, size);
-
-	if (num == 0)
-		buffer[i--] = '0';
-
-	buffer[BUFF_SIZE - 1] = '\0';
-
-	while (num > 0)
-	{
-		buffer[i--] = (num % 10) + '0';
-		num /= 10;
-	}
-
-	i++;
-
-	return (write_unsgnd(0, i, buffer, flags, width, precision, size));
+	return (0);
 }
 
 /**
@@ -187,47 +74,43 @@ int print_unsigned(va_list types, char buffer[],
 */
 int _printf(const char *format, ...)
 {
-	int i, printed = 0, printed_chars = 0;
-	int flags, width, precision, size, buff_ind = 0;
-	va_list list;
-	char buffer[BUFF_SIZE];
+	char c, *s;
+	int i = 0;
+	va_list ap;
 
-	if (format == NULL)
+	va_start(ap, format);
+	if (format_c(format) == -1)
 		return (-1);
-
-	va_start(list, format);
-
-	for (i = 0; format && format[i] != '\0'; i++)
+	if (format)
 	{
-		if (format[i] != '%')
+		while (*format)
 		{
-			buffer[buff_ind++] = format[i];
-			if (buff_ind == BUFF_SIZE)
-				print_buffer(buffer, &buff_ind);
-			/* write(1, &format[i], 1);*/
-			printed_chars++;
+			if (*format == '%')
+			{
+				format++;
+				switch (*format)
+				{
+				case 'c':
+					c = va_arg(ap, int);
+					i += _putchar(c);
+					break;
+				case 's':
+					s = va_arg(ap, char*);
+					i += s ? print_string(s) : print_string("(null)");
+					break;
+				case '%':
+					i += _putchar('%');
+					break;
+				default:
+					i += _putchar('%') + _putchar(*format);
+					break;
+				}
+			}
+			else
+				i += _putchar(*format);
+			format++;
+			}
 		}
-		else
-		{
-			print_buffer(buffer, &buff_ind);
-			flags = get_flags(format, &i);
-			width = get_width(format, &i, list);
-			precision = get_precision(format, &i, list);
-			size = get_size(format, &i);
-			++i;
-			printed = handle_print(format, &i, list, buffer,
-				flags, width, precision, size);
-			if (printed == -1)
-				return (-1);
-			printed_chars += printed;
-		}
-	}
-
-	print_buffer(buffer, &buff_ind);
-
-	va_end(list);
-
-	return (printed_chars);
-}
-
+		va_end(ap);
+		return (i);
 	}
