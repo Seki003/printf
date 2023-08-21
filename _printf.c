@@ -13,16 +13,12 @@ int _printf(const char *format, ...)
 	va_list args;
 	int i = 0;
 	int k = 0;
-	char *s, c;
 	char *word = NULL;
 	int count = 0;
 
 	va_start(args, format);
 
-	if (check(format) == -1)
-		return (-1);
-
-	while (format[i])
+	while (format[i] != '\0')
 	{
 		if (format[i] == '%')
 		{
