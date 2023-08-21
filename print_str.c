@@ -9,12 +9,13 @@
 
 int print_str(char *word)
 {
-	int k = 0;
+	int i = 0;
 
-	while (word[k])
+	while (*word)
 	{
-		_putchar(word[k]);
-		k++;
+		_putchar(*word);
+		word++;
+		i += 1;
 	}
-	return (k);
+	return (i);
 }
