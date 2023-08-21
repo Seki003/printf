@@ -2,6 +2,38 @@
 #include <stddef.h>
 
 /**
+ * format_c - A function that checks the format
+ * @format: A pointer to a string
+ * Return: -1
+ */
+int format_c(const char *format)
+{
+	if (!format || (*format == '%' && !(format + 1)))
+	{
+		return (-1);
+	}
+	if (*format == '%' && *(format + 1) == ' ' && !(format + 2))
+	{
+		return (-1);
+	}
+	if (*format == '%')
+	{
+		format++;
+		while (*format)
+		{
+			if (*format == ' ')
+			{
+				format++;
+				continue;
+			}
+			return (0);
+		}
+		return (-1);
+	}
+	return (0);
+}
+
+/**
  * _printf - take text as input and print it, clone printf
  * @format: containts the strings and char
  * @...: arguments entered
@@ -12,12 +44,13 @@ int _printf(const char *format, ...)
 {
 	va_list args;
 	int i = 0;
-	int k = 0;
 	char *word = NULL;
 	int count = 0;
 
 	va_start(args, format);
 
+	if (format_c(format) == -1)
+		return (-1);
 	while (format[i] != '\0')
 	{
 		if (format[i] == '%')
@@ -25,29 +58,30 @@ int _printf(const char *format, ...)
 			i++;
 			if (format[i] == '%')
 			{
-				_putchar('%');
-				count++;
-				i++;
+				count += _putchar('%');
 			}
 			else if (format[i] == 'c')
 			{
-				_putchar(va_arg(args, int));
-				count++;
-				i++;
+				count += _putchar(va_arg(args, int));
 			}
 			else if (format[i] == 's')
 			{
-				i++;
 				word = va_arg(args, char *);
-				print_str(word);
+				if (word == NULL)
+            		word = "(null)";
+				count += print_str(word);
+			}
+			else
+			{
+				count += _putchar('%');
+				count += _putchar(format[i]);
 			}
 		}
 		else
 		{
-			_putchar(format[i]);
-			count++;
-			i++;
+			count += _putchar(format[i]);
 		}
+		i++;
 	}
 
 	va_end(args);
