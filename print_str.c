@@ -7,15 +7,14 @@
  * Return: formatted strings
 */
 
-int print_str(char *word)
+void print_str(char *word)
 {
 	int i = 0;
 
-	while (*word)
+	while (word[i] != '\0')
 	{
-		_putchar(*word);
+		_putchar(word[i]);
 		word++;
-		i += 1;
 	}
 	return (i);
 }
