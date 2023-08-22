@@ -12,7 +12,5 @@ int _printf(const char *format, ...);
 int print_string(char *str_char);
 int format_c(const char *format);
 int print_char(int a, int c, int b);
-int print_str(char *word);
-int check(const char *format);
 
 #endif
