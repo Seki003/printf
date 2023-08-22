@@ -73,6 +73,8 @@ int _printf(const char *format, ...)
 			}
 			else
 			{
+				if (format[i] == '\0')
+					return (-1);
 				count += _putchar('%');
 				count += _putchar(format[i]);
 			}
@@ -83,7 +85,7 @@ int _printf(const char *format, ...)
 		}
 		i++;
 	}
-
+	
 	va_end(args);
 	return (count);
 }
