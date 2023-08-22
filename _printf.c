@@ -32,12 +32,6 @@ int _printf(const char *format, ...)
 					s = va_arg(ap, char*);
 					i += s ? print_string(s) : print_string("(null)");
 					break;
-				case 'd':
-					i += _putint(ap);
-					break;
-				case 'i':
-					i += print_bin(ap);
-					break;
 				case '%':
 					i += _putchar('%');
 					break;
