@@ -12,5 +12,7 @@ int _printf(const char *format, ...);
 int print_string(char *str_char);
 int format_c(const char *format);
 int print_char(int a, int c, int b);
+int print_int(va_list arg);
+int print_number(int num, int len);
 
 #endif

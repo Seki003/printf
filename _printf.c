@@ -32,6 +32,9 @@ int _printf(const char *format, ...)
 					s = va_arg(ap, char*);
 					i += s ? print_string(s) : print_string("(null)");
 					break;
+				case 'd':
+					i += int print_int(ap);
+					break;
 				case '%':
 					i += _putchar('%');
 					break;
