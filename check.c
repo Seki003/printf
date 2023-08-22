@@ -1,9 +1,11 @@
+#include "main.h"
+
 /**
- * check - A function that checks the format
+ * format_c - A function that checks the format
  * @format: A pointer to a string
  * Return: -1
  */
-int check(const char *format)
+int format_c(const char *format)
 {
 	if (!format || (*format == '%' && !(format + 1)))
 	{
