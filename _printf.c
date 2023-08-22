@@ -1,72 +1,6 @@
 #include "main.h"
 
 /**
- * print_char - fucnction that prints a char character
- * @a: file descriptor integer to output
- * @c: character parameter/
- * @b: character size
- * Return: the character
- */
-int print_char(int a, int c, int b)
-{
-	int display;
-
-	display = write(a, &c, b);
-	return (display);
-}
-
-/**
- * print_string - Function which prints string
- * @str_char: pointer to char string
- *
- * Return: formatted strings
-*/
-int print_string(char *str_char)
-{
-	int i = 0;
-
-	while (*str_char)
-	{
-		_putchar(*str_char);
-		str_char++;
-		i += 1;
-	}
-	return (i);
-}
-
-/**
- * format_c - A function that checks the format
- * @format: A pointer to a string
- * Return: -1
- */
-int format_c(const char *format)
-{
-	if (!format || (*format == '%' && !(format + 1)))
-	{
-		return (-1);
-	}
-	if (*format == '%' && *(format + 1) == ' ' && !(format + 2))
-	{
-		return (-1);
-	}
-	if (*format == '%')
-	{
-		format++;
-		while (*format)
-		{
-			if (*format == ' ')
-			{
-				format++;
-				continue;
-			}
-			return (0);
-		}
-		return (-1);
-	}
-	return (0);
-}
-
-/**
  * _printf - takes strings and arguments of each '%'
  * @format: the first string containing '%'
  * @...: list of arguments variable
@@ -97,6 +31,12 @@ int _printf(const char *format, ...)
 				case 's':
 					s = va_arg(ap, char*);
 					i += s ? print_string(s) : print_string("(null)");
+					break;
+				case 'd':
+					i += _putint(ap);
+					break;
+				case 'i':
+					i += print_bin(ap);
 					break;
 				case '%':
 					i += _putchar('%');
