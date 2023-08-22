@@ -1,14 +1,13 @@
 #include "main.h"
 
-/************************* WRITE HANDLE *************************/
 /**
  * handle_write_char - Prints a string
  * @c: char types.
- * @buffer: Buffer array to handle print
- * @flags:  Calculates active flags.
- * @width: get width.
- * @precision: precision specifier
- * @size: Size specifier
+ * @buffer: setting buffer to print
+ * @flags:  flags should be tracked.
+ * @width: tooking the width.
+ * @precision: specifier of the precision
+ * @size: specifier of size
  *
  * Return: Number of chars printed.
  */
@@ -44,16 +43,15 @@ int handle_write_char(char c, char buffer[],
 	return (write(1, &buffer[0], 1));
 }
 
-/************************* WRITE NUMBER *************************/
 /**
- * write_number - Prints a string
- * @is_negative: Lista of arguments
- * @ind: char types.
- * @buffer: Buffer array to handle print
- * @flags:  Calculates active flags
- * @width: get width.
- * @precision: precision specifier
- * @size: Size specifier
+ * write_number - printing and handling str
+ * @is_negative: the arg listing
+ * @ind: types of char.
+ * @buffer: setting buffer to print
+ * @flags:  flags should be tracked.
+ * @width: tooking the width.
+ * @precision: specifier of the precision
+ * @size: specifier of size
  *
  * Return: Number of chars printed.
  */
@@ -79,12 +77,12 @@ int write_number(int is_negative, int ind, char buffer[],
 }
 
 /**
- * write_num - Write a number using a bufffer
+ * write_num - comes up with a num using buff
  * @ind: Index at which the number starts on the buffer
- * @buffer: Buffer
- * @flags: Flags
- * @width: width
- * @prec: Precision specifier
+ * @buffer: Buffer that has been used
+ * @flags: Flags that we trake
+ * @width: width that set
+ * @prec: specifier of prec
  * @length: Number length
  * @padd: Pading char
  * @extra_c: Extra char
@@ -138,14 +136,14 @@ int write_num(int ind, char buffer[],
 }
 
 /**
- * write_unsgnd - Writes an unsigned number
- * @is_negative: Number indicating if the num is negative
- * @ind: Index at which the number starts in the buffer
- * @buffer: Array of chars
- * @flags: Flags specifiers
- * @width: Width specifier
- * @precision: Precision specifier
- * @size: Size specifier
+ * write_unsgnd - give us an unsinged num
+ * @is_negative: the num that see if the num is negative
+ * @ind: an index where the buffer start
+ * @buffer: setting buffer to print
+ * @flags:  flags should be tracked.
+ * @width: tooking the width.
+ * @precision: specifier of the precision
+ * @size: specifier of size
  *
  * Return: Number of written chars.
  */
@@ -161,7 +159,7 @@ int write_unsgnd(int is_negative, int ind,
 	UNUSED(size);
 
 	if (precision == 0 && ind == BUFF_SIZE - 2 && buffer[ind] == '0')
-		return (0); /* printf(".0d", 0)  no char is printed */
+		return (0);
 
 	if (precision > 0 && precision < length)
 		padd = ' ';
@@ -182,11 +180,11 @@ int write_unsgnd(int is_negative, int ind,
 
 		buffer[i] = '\0';
 
-		if (flags & F_MINUS) /* Asign extra char to left of buffer [buffer>padd]*/
+		if (flags & F_MINUS)
 		{
 			return (write(1, &buffer[ind], length) + write(1, &buffer[0], i));
 		}
-		else /* Asign extra char to left of padding [padd>buffer]*/
+		else
 		{
 			return (write(1, &buffer[0], i) + write(1, &buffer[ind], length));
 		}
@@ -196,15 +194,15 @@ int write_unsgnd(int is_negative, int ind,
 }
 
 /**
- * write_pointer - Write a memory address
- * @buffer: Arrays of chars
- * @ind: Index at which the number starts in the buffer
- * @length: Length of number
- * @width: Wwidth specifier
- * @flags: Flags specifier
- * @padd: Char representing the padding
- * @extra_c: Char representing extra char
- * @padd_start: Index at which padding should start
+ * write_pointer - giving us a memory address
+ * @buffer: Arrays of many chars
+ * @ind: indx which the buffer start
+ * @length: the talle of the num
+ * @width: specification of width
+ * @flags: flags that should we track
+ * @padd: padding representation using char
+ * @extra_c:  extra char representation
+ * @padd_start: padding start at the index
  *
  * Return: Number of written chars.
  */
